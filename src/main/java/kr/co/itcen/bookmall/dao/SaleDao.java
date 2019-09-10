@@ -9,11 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.co.itcen.bookmall.vo.User;
+import kr.co.itcen.bookmall.vo.Category;
+import kr.co.itcen.bookmall.vo.Sale;
 
-public class UserDao {
+public class SaleDao {
 
-	public Boolean insert(User vo) {
+	public Boolean insert(Sale vo) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		Statement stmt = null;
@@ -21,12 +22,12 @@ public class UserDao {
 		ResultSet rs =null;
 		try {
 			connection = getConnection();
-			String sql = "insert into user values(null,?,?,?,password(?))";
+			String sql = "insert into sale values(null,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
-		    pstmt.setString(1, vo.getName());
-		    pstmt.setString(2, vo.getPhone());
-		    pstmt.setString(3, vo.getEmail());
-		    pstmt.setString(4, vo.getPassword());
+			pstmt.setLong(1, vo.getSaleprice());
+			pstmt.setString(2, vo.getSaletitle());
+			pstmt.setLong(3, vo.getBooknum());
+			
 		    int count = pstmt.executeUpdate();
 		    result = (count==1);
 		    stmt=connection.createStatement();
@@ -54,28 +55,26 @@ public class UserDao {
 		 }
 		 return result;
 	}
-	public List<User> getList() {
+	public List<Sale> getList() {
 		Connection connection = null;
 	    PreparedStatement pstmt = null;
-	    List<User> result = new ArrayList<User>();
+	    List<Sale> result = new ArrayList<Sale>();
 	    ResultSet rs =null;
 	    try {  
 	    	connection = getConnection();
-	        String sql = "select * from user order by no asc";
+	        String sql = "select * from sale order by no asc";
 	        pstmt = connection.prepareStatement(sql);
 	        rs= pstmt.executeQuery();
 	        while(rs.next()) {
 	        	Long no=rs.getLong(1);
-	        	String name = rs.getString(2);
-	        	String phone = rs.getString(3);
-	        	String email = rs.getString(4);
-	        	String password = rs.getString(5);
-	        	User vo = new User();
+	        	Long saleprice = rs.getLong(2);
+	        	String title = rs.getString(3);
+	        	Long bookno=rs.getLong(4);
+	        	Sale vo = new Sale();
 	        	vo.setNo(no);
-	        	vo.setName(name);
-	        	vo.setEmail(email);
-	        	vo.setPassword(password);
-	        	vo.setPhone(phone);
+	        	vo.setSaleprice(saleprice);
+	        	vo.setSaletitle(title);
+	        	vo.setBooknum(bookno);
 	        	result.add(vo);
 	         }
 	      }catch (SQLException e) {
@@ -114,7 +113,7 @@ public class UserDao {
 	    PreparedStatement pstmt = null;
 	    try {
 	    	connection = getConnection();
-	    	String sql = "delete from user";
+	    	String sql = "delete from sale";
 	        pstmt = connection.prepareStatement(sql);
 	        pstmt.executeUpdate();
 	      }catch (SQLException e) {

@@ -11,7 +11,6 @@ import java.util.List;
 
 import kr.co.itcen.bookmall.vo.Category;
 public class CategoryDao {
-
 	public Boolean insert(Category vo) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -125,5 +124,50 @@ public class CategoryDao {
 	         }
 	      }
 	}
+//	public Long getNumber(String n) {
+//		Connection connection = null;
+//	    PreparedStatement pstmt = null;
+//	    ResultSet rs =null;
+//	    Statement stmt = null;
+//	    Long result=0L;
+//	    try {  
+//	    	connection = getConnection();
+//	        String sql = "select no from category where category="+"'"+n+"'";
+//
+//	        pstmt = connection.prepareStatement(sql);
+//	        rs = pstmt.executeQuery();
+//	        
+//	        if(rs.next()) {
+//	        	result=rs.getLong(1);
+//	        }else {
+//	        	 Category vo = new Category();
+//	        	 vo.setCategory(n);
+//	        	 insert(vo);
+//	        	 stmt=connection.createStatement();
+//	        	 rs.close();
+//	 		     rs =stmt.executeQuery("select last_insert_id()");
+//	 		     if(rs.next()) 
+//	 		    	result=rs.getLong(1);
+//	        }
+//	      }catch (SQLException e) {
+//	         System.out.println("error : " + e);
+//	      }finally {
+//	         try {
+//	        	if(rs!=null) {
+//	        		rs.close();
+//	        	}
+//	            if (pstmt != null) {
+//	               pstmt.close();
+//	            }
+//	            if (connection != null) {
+//	               connection.close();
+//	            }
+//	         } catch (Exception e) {
+//	            // TODO: handle exception
+//	            e.printStackTrace();
+//	         }
+//	      }
+//	    return result;
+//	}
 
 }
